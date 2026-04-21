@@ -7,7 +7,7 @@ export class TableTypePriority1776809847407 implements MigrationInterface {
         (`
             CREATE TABLE IF NOT EXISTS "TYPEPRIORITY"(
                 TYPEPRI_ID SERIAL PRIMARY KEY,
-                TYPEPRI__DESCRIPTION TEXT NOT NULL
+                TYPEPRI_DESCRIPTION TEXT NOT NULL
             )
             
         `)
