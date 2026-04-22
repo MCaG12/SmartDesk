@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Cargo } from './entity_cargo';
+import { Cargo } from './entity_Cargo';
 import { Departamento } from './entity_Departamento';
-import { TipoUsuario } from './entity_tipoUsuario';
+import { TipoUsuario } from './entity_TipoUsuario';
  
 @Entity('USUARIO')
 export class Usuario {
