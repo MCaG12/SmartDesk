@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TicketStatus } from './entity_TicketStatus';
-import { TypePriority } from './entity_typepriority';
+import { TypePriority } from './entity_TypePriority';
 import { TicketCategory } from './entity_Category';
-import { Usuario } from './entity_usuario';
+import { Usuario } from './entity_Usuario';
  
 @Entity('TICKET')
 export class Ticket {
