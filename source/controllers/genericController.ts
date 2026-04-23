@@ -22,7 +22,7 @@ export class GenericController<T extends ObjectLiteral> {
   {
         try 
         {   
-            return this.repository.findBy( id  as any);
+            return this.repository.findBy( req.body.id  as any);
         } 
 
         catch (error) 
@@ -46,25 +46,26 @@ export class GenericController<T extends ObjectLiteral> {
   }
 }
 
- update = async (id: number, data: Partial<T>) => {
-    {
-        try 
-        {
-        await this.repository.update(id, data as any);
-        return this.repository.findOne(id as any);     
-        } 
-        catch (error) 
-        {
-        return error;      
-        }
-    }
-}
+ update = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);  
+    const data = req.body;             
 
-delete = async (id: number, data: Partial<T>) => {
+    await this.repository.update(id, data);
+    const result = await this.repository.findOneBy({ id } as any);
+
+    if (!result) return res.status(404).json({ message: 'Not found' });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+};
+
+delete = async (req: Request) => {
     try 
     {
-      await this.repository.delete(id as any);
-      return "Register Removed";
+      await this.repository.delete(req.body.id as any);
+      return `Register with id ${req.body.id} has been deleted!`;
     } 
 
     catch (error) 

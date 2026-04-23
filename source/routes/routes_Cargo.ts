@@ -5,12 +5,12 @@ import {CargoController} from "../controllers/controller_Cargo"
 const ConstCargoController = new CargoController()
 
 
-const imageRouter = Router();
+const CargoRouter = Router();
+CargoRouter.get('/Cargo', ConstCargoController.GetAll);
+CargoRouter.get('/Cargo/:id', ConstCargoController.GetById);
+CargoRouter.post('/Cargo', ConstCargoController.post);
+CargoRouter.put('/Cargo/:id', ConstCargoController.update);
+CargoRouter.delete('/Cargo/:id', ConstCargoController.delete);
 
-imageRouter.get('/GetImages', ImageController.getImages)
 
-imageRouter.post('/GetImage', ImageController.getImage)
-
-imageRouter.post('/GetImageQuestionId', ImageController.getImageByQuestionId)
-
-export default imageRouter;
+export default CargoRouter;
