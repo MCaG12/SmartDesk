@@ -6,10 +6,10 @@ const ConstUsuarioController = new UsuarioController()
 
 const UserRouter = Router();
 
-UserRouter.get('/User', ConstUsuarioController.GetAll);
-UserRouter.get('/User/:id', ConstUsuarioController.GetById);
-UserRouter.post('/User', ConstUsuarioController.post);
-UserRouter.put('/User/:id', ConstUsuarioController.update);
-UserRouter.delete('/User/:id', ConstUsuarioController.delete);
+UserRouter.get('/GetAll', ConstUsuarioController.GetAll);
+UserRouter.get('/Get/:id', ConstUsuarioController.GetById);
+UserRouter.post('/', ConstUsuarioController.post);
+UserRouter.put('/:id', ConstUsuarioController.update);
+UserRouter.delete('/:id', ConstUsuarioController.delete);
 
 export default UserRouter;

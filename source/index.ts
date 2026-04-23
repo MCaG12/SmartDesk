@@ -2,12 +2,28 @@ import "dotenv/config";
 import "reflect-metadata";           
 import express from "express";
 import { AppDataSource } from "./data-source";
+import CargoRouter from "./routes/routes_Cargo";
+import DepartamentoRouter from "./routes/routes_Departamento";
+import TicketCategoryRouter from "./routes/routes_TicketCategory";
+import TicketRouter from "./routes/routes_Ticket";
+import TicketCommentRouter from "./routes/routes_TicketComment";
+import TicketStatusRouter from "./routes/routes_TicketStatus";
+import TipoUsuarioRouter from "./routes/routes_TipoUsuario";
+import TypePriorityRouter from "./routes/routes_TypePriority";
+import UserRouter from "./routes/routes_Usuario";
 
 const app = express();
 app.use(express.json());
 
-
-app.get("/", (req, res) => res.json({ message: "API running!" }));
+app.use("/Cargo", CargoRouter);
+app.use("/Departamento", DepartamentoRouter);
+app.use("/Ticket", TicketRouter);
+app.use("/TicketCategory", TicketCategoryRouter);
+app.use("/TicketComment", TicketCommentRouter)
+app.use("/TicketStatus", TicketStatusRouter)
+app.use("/TipoUsuario", TipoUsuarioRouter);
+app.use("/TypePriority", TypePriorityRouter)
+app.use("/Usuario", UserRouter)
 
 AppDataSource.initialize()
   .then(() => {

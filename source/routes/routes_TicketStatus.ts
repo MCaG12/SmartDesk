@@ -6,11 +6,11 @@ const ConstTicketStatusController = new TicketStatusController()
 
 const TicketStatusRouter = Router();
 
-TicketStatusRouter.get('/TicketStatus', ConstTicketStatusController.GetAll);
-TicketStatusRouter.get('/TicketStatus/:id', ConstTicketStatusController.GetById);
-TicketStatusRouter.post('/TicketStatus', ConstTicketStatusController.post);
-TicketStatusRouter.put('/TicketStatus/:id', ConstTicketStatusController.update);
-TicketStatusRouter.delete('/TicketStatus/:id', ConstTicketStatusController.delete);
+TicketStatusRouter.get('/GetAll', ConstTicketStatusController.GetAll);
+TicketStatusRouter.get('/Get/:id', ConstTicketStatusController.GetById);
+TicketStatusRouter.post('/', ConstTicketStatusController.post);
+TicketStatusRouter.put('/:id', ConstTicketStatusController.update);
+TicketStatusRouter.delete('/:id', ConstTicketStatusController.delete);
 
 
 export default TicketStatusRouter;

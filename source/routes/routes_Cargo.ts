@@ -6,11 +6,11 @@ const ConstCargoController = new CargoController()
 
 
 const CargoRouter = Router();
-CargoRouter.get('/Cargo', ConstCargoController.GetAll);
-CargoRouter.get('/Cargo/:id', ConstCargoController.GetById);
-CargoRouter.post('/Cargo', ConstCargoController.post);
-CargoRouter.put('/Cargo/:id', ConstCargoController.update);
-CargoRouter.delete('/Cargo/:id', ConstCargoController.delete);
+CargoRouter.get('/getAll', ConstCargoController.GetAll);
+CargoRouter.get('/get/:id', ConstCargoController.GetById);
+CargoRouter.post('/', ConstCargoController.post);
+CargoRouter.put('/:id', ConstCargoController.update);
+CargoRouter.delete('/:id', ConstCargoController.delete);
 
 
 export default CargoRouter;

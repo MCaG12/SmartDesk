@@ -6,11 +6,11 @@ const ConstTicketCommentController= new TicketCommentController()
 
 const TicketCommentRouter = Router();
 
-TicketCommentRouter.get('/TicketComment', ConstTicketCommentController.GetAll);
-TicketCommentRouter.get('/TicketComment/:id', ConstTicketCommentController.GetById);
-TicketCommentRouter.post('/TicketComment', ConstTicketCommentController.post);
-TicketCommentRouter.put('/TicketComment/:id', ConstTicketCommentController.update);
-TicketCommentRouter.delete('/TicketComment/:id', ConstTicketCommentController.delete);
+TicketCommentRouter.get('/GetAll', ConstTicketCommentController.GetAll);
+TicketCommentRouter.get('/Get/:id', ConstTicketCommentController.GetById);
+TicketCommentRouter.post('/', ConstTicketCommentController.post);
+TicketCommentRouter.put('/:id', ConstTicketCommentController.update);
+TicketCommentRouter.delete('/:id', ConstTicketCommentController.delete);
 
 
 export default TicketCommentRouter;
