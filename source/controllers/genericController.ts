@@ -1,5 +1,4 @@
 import { ObjectLiteral, Repository } from "typeorm";
-import { AppDataSource } from "../data-source";
 import { Request , Response } from "express";
 
 export class GenericController<T extends ObjectLiteral> {
