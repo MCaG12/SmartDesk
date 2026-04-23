@@ -1,11 +1,11 @@
 
 import { AppDataSource } from '../data-source';
-import { Ticket } from '../entities/entity_TipoUsuario';
+import { TipoUsuario } from '../entities/entity_TipoUsuario';
 import { GenericController } from './genericController';
 
-export class CargoController extends GenericController<Cargo> {
+export class TipoUsuarioController extends GenericController<TipoUsuario> {
   constructor() {
-    super(AppDataSource.getRepository(Cargo));
+    super(AppDataSource.getRepository(TipoUsuario));
   }
 
  
