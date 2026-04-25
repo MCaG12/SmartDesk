@@ -11,7 +11,7 @@ export class Ticket {
  
   @Column({ name: 'TICKET_TITLE', type: 'text', nullable: false })
   ticketTitle!: string;
- 
+  
   @ManyToOne(() => TicketStatus, { nullable: true })
   @JoinColumn({ name: 'TICKET_STATUS' })
   ticketStatus!: TicketStatus;
@@ -31,7 +31,7 @@ export class Ticket {
   ticketDateOpen!: Date;
  
   @Column({ name: 'TICKET_DATECLOSE', type: 'timestamp', nullable: true })
-  ticketDateClose!: Date;
+  ticketDateClose!: Date 
  
   @ManyToOne(() => Usuario, { nullable: true })
   @JoinColumn({ name: 'TICKET_SOLICITANT' })

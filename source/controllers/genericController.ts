@@ -36,20 +36,20 @@ export class GenericController<T extends ObjectLiteral> {
         }
   }
 
-        post = async (req: Request, res:Response) => {
-        {
-                try 
-                {   
-                    const entity = this.repository.create();
-                    return res.status(200).json(await this.repository.save(entity));
-                } 
+    post = async (req: Request, res:Response) => {
+    {
+            try 
+            {   
+                const entity = this.repository.create();
+                return res.status(200).json(await this.repository.save(entity));
+            } 
 
-                catch (error) 
-                {
-                    return error
-                }
-        }
-        }
+            catch (error) 
+            {
+                return error
+            }
+    }
+    }
 
  update = async (req: Request, res: Response) => {
   try {

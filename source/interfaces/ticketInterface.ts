@@ -5,7 +5,7 @@ export interface ITicket {
   ticketDescription: string;
   ticketCategory: number;
   ticketDateOpen: Date;
-  ticketDateClose: Date | null;
+  ticketDateClose: undefined;
   ticketSolicitant: number;
   ticketAgent: number;
 }

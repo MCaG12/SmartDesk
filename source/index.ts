@@ -19,20 +19,18 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use("/Cargo", CargoRouter);
-app.use("/Departamento", DepartamentoRouter);
-app.use("/Ticket", TicketRouter);
-app.use("/TicketCategory", TicketCategoryRouter);
-app.use("/TicketComment", TicketCommentRouter)
-app.use("/TicketStatus", TicketStatusRouter)
-app.use("/TipoUsuario", TipoUsuarioRouter);
-app.use("/TypePriority", TypePriorityRouter)
-app.use("/Usuario", UserRouter)
-
-
 AppDataSource.initialize()
   .then(() => {
     console.log("Database connected.");
+    app.use("/Cargo", CargoRouter);
+    app.use("/Departamento", DepartamentoRouter);
+    app.use("/Ticket", TicketRouter);
+    app.use("/TicketCategory", TicketCategoryRouter);
+    app.use("/TicketComment", TicketCommentRouter);
+    app.use("/TicketStatus", TicketStatusRouter);
+    app.use("/TipoUsuario", TipoUsuarioRouter);
+    app.use("/TypePriority", TypePriorityRouter);
+    app.use("/Usuario", UserRouter);
     app.listen(3000, () => console.log("Server running on port 3000"));
   })
   .catch((err) => {
