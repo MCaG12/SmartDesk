@@ -1,0 +1,583 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: projeto
+meta:
+  id: wrk_fca62ccb043f4af78e0b6d02d8a90642
+  created: 1776975827060
+  modified: 1776975827060
+  description: ""
+collection:
+  - name: cargo
+    meta:
+      id: fld_ecf5a160512942a3938f1767cff224f2
+      created: 1776981138160
+      modified: 1776981138160
+      sortKey: -1776981138160
+      description: ""
+    children:
+      - url: http://localhost:3000/Cargo/getAll
+        name: New Request
+        meta:
+          id: req_d0124163a4b74195961697b67896e624
+          created: 1776976328798
+          modified: 1776981143246
+          isPrivate: false
+          description: ""
+          sortKey: -1776981143229
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/Cargo/get/35
+        name: New Request
+        meta:
+          id: req_176d53096e53426985cd08b8cb4a4bee
+          created: 1776979318380
+          modified: 1776981146501
+          isPrivate: false
+          description: ""
+          sortKey: -1776981143329
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Departamento
+    meta:
+      id: fld_ab0f24286c9d45f99254ecf7b6cd4ee9
+      created: 1776981186791
+      modified: 1776981186791
+      sortKey: -1776981186791
+      description: ""
+    children:
+      - url: http://localhost:3000/Departamento/GetAll
+        name: New Request
+        meta:
+          id: req_f332f4d88843441e940dc8423119b858
+          created: 1776975834174
+          modified: 1776981189723
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/Departamento/get/1
+        name: New Request
+        meta:
+          id: req_5d4c505456214827acfe13c98b9eafc6
+          created: 1776981197710
+          modified: 1776981202941
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: TicketStatus
+    meta:
+      id: fld_888e4395809445d7b70f56d14c7c27a7
+      created: 1776981303424
+      modified: 1776981303424
+      sortKey: -1776981162475.5
+      description: ""
+    children:
+      - url: http://localhost:3000/TicketStatus/get/1
+        name: New Request
+        meta:
+          id: req_4bd20c009bcc4f19b595c3c3c41f91e0
+          created: 1776981303424
+          modified: 1776981316501
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/TicketStatus/GetAll
+        name: New Request
+        meta:
+          id: req_c69a057c7b1040f5bcad2fe2ffd37021
+          created: 1776981303424
+          modified: 1776981312950
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Ticket
+    meta:
+      id: fld_d80016bf6c2443f38783dd118fa32c75
+      created: 1776981327611
+      modified: 1776981327611
+      sortKey: -1776981174633.25
+      description: ""
+    children:
+      - url: http://localhost:3000/Ticket/get/1
+        name: New Request
+        meta:
+          id: req_95305e38bb744d20b2675795603f1859
+          created: 1776981327611
+          modified: 1776981337767
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/Ticket/GetAll
+        name: New Request
+        meta:
+          id: req_b7c67ea08f16412aba1c1f0a96cecb13
+          created: 1776981327611
+          modified: 1776981336344
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/Ticket/
+        name: New Request
+        meta:
+          id: req_bde8194cca2648cf8164dc993b5fd1a5
+          created: 1776981466528
+          modified: 1777071202613
+          isPrivate: false
+          description: ""
+          sortKey: -1776981178114.75
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"ticketTitle": "Erro ao salvar usuário",
+              "ticketStatus": 1,
+              "ticketPriority": 2,
+              "ticketDescription": "Ao tentar salvar um novo usuário, o sistema retorna erro 500.",
+              "ticketCategory": 3,
+              "ticketDateOpen": "2026-04-24T19:00:00.000Z",
+              "ticketDateClose": null,
+              "ticketSolicitant": 3,
+              "ticketAgent": 4
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: TicketCategory
+    meta:
+      id: fld_95fd18c200ac4d11a2c4eaa9e1e7efac
+      created: 1776981343757
+      modified: 1776981343757
+      sortKey: -1776981168554.375
+      description: ""
+    children:
+      - url: http://localhost:3000/TicketCategory/get/1
+        name: New Request
+        meta:
+          id: req_3cf1d08175e44a2d8723affa0dd1a7e1
+          created: 1776981343757
+          modified: 1776981347832
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/TicketCategory/GetAll
+        name: New Request
+        meta:
+          id: req_c35e1307931a4183b55a711147fdedba
+          created: 1776981343757
+          modified: 1776981346018
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: TicketComment
+    meta:
+      id: fld_b4f5be248c894e669d349f167c59f572
+      created: 1776981368201
+      modified: 1776981368201
+      sortKey: -1776981171593.8125
+      description: ""
+    children:
+      - url: http://localhost:3000/TicketComment/GetAll
+        name: New Request
+        meta:
+          id: req_3d14851a49a248ac90ab938e7dbb30eb
+          created: 1776981368201
+          modified: 1776981371051
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/TicketComment/get/1
+        name: New Request
+        meta:
+          id: req_895747d351cb419386da0b3efe5a03b2
+          created: 1776981368201
+          modified: 1776981373192
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: TipoUsuario
+    meta:
+      id: fld_0140c6191a6f41708b9fe480d94f1266
+      created: 1776981409218
+      modified: 1776981409218
+      sortKey: -1776981150317.75
+      description: ""
+    children:
+      - url: http://localhost:3000/TipoUsuario/GetAll
+        name: New Request
+        meta:
+          id: req_6b3a8e0b09ae4c06be8505f51d7ed3a5
+          created: 1776981409218
+          modified: 1776981411529
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/TipoUsuario/get/1
+        name: New Request
+        meta:
+          id: req_c44b1595f35d4be6b39140a54a94b0cd
+          created: 1776981409218
+          modified: 1776981413393
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: TypePriority
+    meta:
+      id: fld_c7ae48d9e8814ff389bf3aac3fe249d9
+      created: 1776981424699
+      modified: 1776981424699
+      sortKey: -1776981144238.875
+      description: ""
+    children:
+      - url: http://localhost:3000/TypePriority/get/1
+        name: New Request
+        meta:
+          id: req_15ea5fe7aa054264bcd1a47b2f9086f2
+          created: 1776981424699
+          modified: 1776981428788
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/TypePriority/GetAll
+        name: New Request
+        meta:
+          id: req_409841a2d6fc4c5ba971bfa0ab19cb20
+          created: 1776981424699
+          modified: 1776981426945
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Usuario
+    meta:
+      id: fld_839627a462c24e19a7b396bf93ee3bf9
+      created: 1776981434521
+      modified: 1776981434521
+      sortKey: -1776981141199.4375
+      description: ""
+    children:
+      - url: http://localhost:3000/Usuario/GetAll
+        name: New Request
+        meta:
+          id: req_4d34af5b7b4c45329b33e8f5cc4f585d
+          created: 1776981434521
+          modified: 1776981436578
+          isPrivate: false
+          description: ""
+          sortKey: -1776981189710
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/Usuario/get/1
+        name: New Request
+        meta:
+          id: req_e3f0affdeac542b2b83baed9c5777ac7
+          created: 1776981434521
+          modified: 1776981439427
+          isPrivate: false
+          description: ""
+          sortKey: -1776981166519.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/Usuario/
+        name: Post
+        meta:
+          id: req_b8665e4b576a41128443a9a70c235e68
+          created: 1777074796928
+          modified: 1777075277095
+          isPrivate: false
+          description: ""
+          sortKey: -1776981183912.375
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"usuarNome": "TESTANDOPELOINSOMNIA",
+            	"usuarEmail": "TESTANDOPELOINSOMNIA@EMAIL",
+            	"usuarSenha": "TESTANDOPELOINSOMNIA",
+            	"usuarCargo": 47,
+            	"usuarDepartamento": 4,
+            	"usuarTipoUsuario": 2
+            }       
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.5.0
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_fc1de2c3b06a46a01f4c748542c4756f02957f5e
+    created: 1776975827062
+    modified: 1776975827062
+environments:
+  name: Base Environment
+  meta:
+    id: env_fc1de2c3b06a46a01f4c748542c4756f02957f5e
+    created: 1776975827061
+    modified: 1776975827061
+    isPrivate: false
