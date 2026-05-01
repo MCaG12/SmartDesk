@@ -1,5 +1,6 @@
 
 import { generateDTO } from '../auxFunctions/generateObjectDto';
+import ConstTicketStatus from '../consts/TicketStatus';
 import { AppDataSource } from '../data-source';
 import { TicketStatus } from '../entities/entity_TicketStatus';
 import { GenericController } from './genericController';
@@ -20,7 +21,10 @@ export class TicketStatusController extends GenericController<TicketStatus> {
 
   post = async (req: Request, res: Response) =>
     {
-      if(req.body.ticketStatus.trim() == "" || typeof req.body.ticketStatus != "string"){return}
+      if(req.body.ticketStatus.trim() == "" || typeof req.body.ticketStatus != "string")
+        {
+          return res.status(400).json({ error: ConstTicketStatus.BODY_REQUIRED});
+        }
   
       try
       {
@@ -35,7 +39,7 @@ export class TicketStatusController extends GenericController<TicketStatus> {
         
         if(typeof TicketStatusObject == "string")
           {
-            return
+            return res.status(400).json({ error: ConstTicketStatus.TICKET_STATUS_DESCRIPTION});
           }
 
         const NewTicketStatusBody = {

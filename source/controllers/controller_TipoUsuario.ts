@@ -1,5 +1,6 @@
 
 import { generateDTO } from '../auxFunctions/generateObjectDto';
+import ConstTypeUser from '../consts/TypeUser';
 import { AppDataSource } from '../data-source';
 import { TipoUsuario } from '../entities/entity_TipoUsuario';
 import { GenericController } from './genericController';
@@ -22,7 +23,7 @@ export class TipoUsuarioController extends GenericController<TipoUsuario> {
 
       if(req.body.tipusuDescricao.trim() == "" || typeof req.body.tipusuDescricao != "string")
         {
-           return res.status(400).json({ error: ''})
+           return res.status(400).json({ error: ConstTypeUser.TYPE_USER_DESCRIPTION});
         }
 
 
@@ -37,7 +38,7 @@ export class TipoUsuarioController extends GenericController<TipoUsuario> {
 
       if(typeof TipoUserObject == "string")
         {
-          return res.status(401).json("Invalid Information sent")
+          return res.status(400).json({ error: ConstTypeUser.TYPE_USER_BADBODY});
         }
 
       const NewTipoUser = await this.TipoUsuarioRepository.create(TipoUserObject); 

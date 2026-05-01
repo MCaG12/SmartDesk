@@ -1,5 +1,6 @@
 
 import { generateDTO } from '../auxFunctions/generateObjectDto';
+import ConstTicketCategory from '../consts/TicketCategory';
 import { AppDataSource } from '../data-source';
 import { TicketCategory } from '../entities/entity_TicketCategory';
 import { GenericController } from './genericController';
@@ -21,7 +22,7 @@ export class TicketCategoryController extends GenericController<TicketCategory> 
     {
       if(req.body.ticketCategory.trim() == "" || typeof req.body.ticketCategory != "string")
         {
-
+            return res.status(400).json({ error: ConstTicketCategory.BODY_REQUIRED});
         }
 
       try
@@ -37,7 +38,7 @@ export class TicketCategoryController extends GenericController<TicketCategory> 
 
         if(typeof TicketCategoryObject == "string")
           {
-            return
+             return res.status(400).json({ error: ConstTicketCategory.TICKET_CATEGORY_DESCRIPTION});
           }
 
         const NewTicketCategoryObject =

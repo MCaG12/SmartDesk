@@ -1,5 +1,6 @@
 
 import { generateDTO } from '../auxFunctions/generateObjectDto';
+import ConstDepartamento from '../consts/Departamento';
 import { AppDataSource } from '../data-source';
 import { Departamento } from '../entities/entity_Departamento';
 import { GenericController } from './genericController';
@@ -21,7 +22,7 @@ export class DepartamentoController extends GenericController<Departamento> {
     {
       if(req.body.departamentoNome.trim() == "" || typeof req.body.departamentoNome != "string")
         {
-          return res.status(400).json("Department Name Required!")
+          return res.status(400).json({ error: ConstDepartamento.BODY_REQUIRED});
         }
 
       try 
@@ -37,7 +38,7 @@ export class DepartamentoController extends GenericController<Departamento> {
 
           if(typeof DepartamentoObject == "string")
             {
-              return "error";
+              return res.status(400).json({ error: ConstDepartamento.DEPARTAMENTO_NAME_REQUIRED});
             }
 
           const newObject = 

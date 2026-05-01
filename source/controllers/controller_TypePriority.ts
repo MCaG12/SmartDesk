@@ -1,5 +1,6 @@
 
 import { generateDTO } from '../auxFunctions/generateObjectDto';
+import ConstTypePriority from '../consts/TypePriority';
 import { AppDataSource } from '../data-source';
 import { TypePriority } from '../entities/entity_TypePriority';
 import { GenericController } from './genericController';
@@ -21,7 +22,7 @@ export class TypePriorityController extends GenericController<TypePriority> {
   {
       if(req.body.typepriDescription.trim() == "" || typeof req.body.typepriDescription != "string")
         {
-            return res.status(400).json({ error: ''})
+            return res.status(400).json({ error: ConstTypePriority.TYPE_PRIORITY_DESCRIPTION});
         }
 
       const TypePriorityTemplate = 
@@ -35,7 +36,7 @@ export class TypePriorityController extends GenericController<TypePriority> {
 
       if(typeof NewTypePriority == "string")
         {
-          return 
+          return res.status(400).json({ error: ConstTypePriority.TYPE_PRIORITY_BADBODY}); 
         }
       
       const NewTypePriorityObject = await this.TypePriority.create(NewTypePriority)
