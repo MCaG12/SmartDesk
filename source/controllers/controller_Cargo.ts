@@ -8,5 +8,7 @@ export class CargoController extends GenericController<Cargo> {
     super(AppDataSource.getRepository(Cargo));
   }
 
+  
+
  
 }
