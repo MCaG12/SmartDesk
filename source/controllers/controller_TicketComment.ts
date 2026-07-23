@@ -29,6 +29,7 @@ export class TicketCommentController extends GenericController<TicketComment> {
   {
     try 
     {
+      
       if(req.body.tickcomComment.trim() == "" || typeof req.body.tickcomComment != "string")
       {
         return res.status(400).json({ error: ConstTicketComment.BODY_REQUIRED});
@@ -39,7 +40,7 @@ export class TicketCommentController extends GenericController<TicketComment> {
           return res.status(400).json({ error: ConstTicketComment.BODY_REQUIRED});
         }
 
-      if(req.body.tickcomUser == null || typeof req.body.tickcomUser != "string")
+      if(req.body.tickcomUser == null || typeof req.body.tickcomUser != "number")
         {
           return res.status(400).json({ error: ConstTicketComment.BODY_REQUIRED});
         }
@@ -60,21 +61,19 @@ export class TicketCommentController extends GenericController<TicketComment> {
           return res.status(400).json({ error: ConstTicketComment.TICKETCOMMENT_INVALIDINFO});
         }
 
-      if(!this.UserRepository.findOne({where :{Id : TicketCommentObject.tickcomUser}}))
-      {
-        return res.status(400).json({ error: ConstTicketComment.TICKETCOMMENT_INVALIDUSER});
+      if (!this.UserRepository.findOne({ where: { Id: TicketCommentObject.tickcomUser } })) {
+        return res.status(400).json({ error: ConstTicketComment.TICKETCOMMENT_INVALIDUSER });
       }
 
-      if(!this.TicketRepository.findOne({where :{Id : TicketCommentObject.tickcomTicket}}))
-      {
-        return res.status(400).json({ error: ConstTicketComment.TICKETCOMMENT_INVALIDTICKET});
+      if (!this.TicketRepository.findOne({ where: { Id: TicketCommentObject.tickcomTicket } })) {
+        return res.status(400).json({ error: ConstTicketComment.TICKETCOMMENT_INVALIDTICKET });
       }
 
       const TicketData = 
       {
         tickcomComment: '',
-        tickcomTicket: {Id: TemplateTicket.tickcomTicket},
-        tickcomUser: {Id: TemplateTicket.tickcomUser}
+        tickcomTicket: {Id: TicketCommentObject.tickcomTicket},
+        tickcomUser: {Id: TicketCommentObject.tickcomUser}
       }
       
       const NewTicketComment = this.TicketCommentRepository.create(TicketData)
@@ -87,8 +86,9 @@ export class TicketCommentController extends GenericController<TicketComment> {
     {
       return res.status(401).json(error)
     }
-
   }
+
+  
 
  
 }

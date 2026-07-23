@@ -3,6 +3,7 @@ import { generateDTO } from '../auxFunctions/generateObjectDto';
 import ConstTicket from '../consts/TicketConst';
 import { AppDataSource } from '../data-source';
 import { Ticket } from '../entities/entity_Ticket';
+import { TicketComment } from '../entities/entity_TicketComment';
 import { Usuario } from '../entities/entity_Usuario';
 import { ITicket } from '../interfaces/ticketInterface';
 import { GenericController } from './genericController';
@@ -24,9 +25,42 @@ export class TicketController extends GenericController<Ticket> {
 
   private TicketRepository = AppDataSource.getRepository(Ticket)  
   private UserRepository   = AppDataSource.getRepository(Usuario) 
+  private TicketCommentRepository = AppDataSource.getRepository(TicketComment)
 
   constructor() {
     super(AppDataSource.getRepository(Ticket));
+  }
+
+  GetTicketsByEmail = async (req:Request, res :Response) =>
+  {
+    try 
+        {
+            const email = req.body.email;
+            if(email.trim() == "" || typeof(email) !== "string")
+            {
+                return res.status(400).json({ error: ConstTicket.TICKET_AGENT_EMAIL_INVALID});
+            }
+
+            return res.status(200).json(await this.TicketRepository.find({
+            relations: [
+              "ticketStatus",
+              "ticketPriority",
+              "ticketCategory",
+              "ticketSolicitant",
+              "ticketAgent"
+            ],
+            where: {
+              ticketAgent: {
+                usuarEmail: email
+              }
+            }
+          }));
+        } 
+
+        catch (error) 
+        {
+            return error
+        }
   }
 
  GetAll = async (req: Request, res  :Response) => 
@@ -85,7 +119,7 @@ export class TicketController extends GenericController<Ticket> {
         {
           return res.status(400).json({ error: ConstTicket.TICKET_SOLICITANT_INVALID});
         }
-      if( req.body.ticketAgent == null || typeof req.body.ticketAgent !== "number")
+      if( typeof req.body.ticketAgent !== "number"  && req.body.ticketAgent != null )
         {
           return res.status(400).json({ error: ConstTicket.TICKET_AGENT_INVALID});
         }
@@ -153,7 +187,117 @@ export class TicketController extends GenericController<Ticket> {
    }
  }
 
-  
- 
+ advanceTicket = async (req: Request, res  :Response) => 
+  {
+    const ticketId = req.params.id;
+    try 
+    {
+      const ticketFound = await this.TicketRepository.findOne({
+          relations: [
+            "ticketStatus",
+            "ticketPriority",
+            "ticketCategory",
+            "ticketSolicitant",
+            "ticketAgent"
+          ],
+          where: {
+            Id: Number(ticketId)
+          }
+      })
+      if(!ticketFound)
+        {
+          return res.status(400).json({ error: ConstTicket.TICKET_NOT_FOUND});
+        }
+      if(ticketFound.ticketStatus.Id == 1)
+        {
+          ticketFound.ticketStatus.Id = 2
+        }
+      else if(ticketFound.ticketStatus.Id == 2)
+      {
+        ticketFound.ticketStatus.Id = 4
+      }
+      else
+        {
+          ticketFound.ticketStatus.Id = 5
+        }
+      
+      await this.TicketRepository.update(Number(ticketId), {
+      ticketStatus: { Id: ticketFound.ticketStatus.Id } 
+      });
+
+      return res.status(200).json({ message: "Ticket advanced successfully" });
+
+    } 
+
+    catch (error) 
+    {
+        return error
+    }
+  }
+
+  fetchLastestTickets = async (req:Request, res: Response) => 
+  {
+    const UserId : Number = req.body.UserId;
+
+    try 
+    {
+      const TicketsFound: Ticket[] = await this.TicketRepository
+      .createQueryBuilder("ticket")
+      .limit(5)
+      .where("ticket.TICKET_AGENT = :agentCode", { agentCode: UserId })
+      .orderBy("ticket.TICKET_ID", "DESC")
+      .getMany()
+
+      return res.status(200).json(TicketsFound);
+    } 
+
+    catch (error) 
+    {
+      return res.status(500).json({message : error})
+    }
+  }
+
+  fetchLatestTicketComments = async (req:Request, res:Response) => 
+  {
+    const AgentId : Number = req.body.AgentId;
+    try 
+    {
+      const CommentsFound : TicketComment[] = await  this.TicketCommentRepository
+      .createQueryBuilder("TicketComment")
+      .innerJoinAndSelect(Ticket,"ticket", "ticket.TICKET_ID = TicketComment.TICKCOM_TICKETID")
+      .where("TicketComment.TICKCOM_USERID = :agentCode", {agentCode: AgentId})
+      .limit(5)
+      .orderBy("TicketComment.TICKCOM_TICKETID", "DESC")
+      .getMany()
+      
+      return res.status(200).json(CommentsFound)
+    } 
+    catch (error) 
+    {
+      return res.status(500).json({message : error});  
+    }
+  }
+
+  fetchTicketTypesByAgent = async (req:Request, res:Response) => 
+  {
+    const AgentId : Number = req.body.AgentId;
+    try 
+    {
+      const CategoriesFound : number [] = await this.TicketRepository
+      .createQueryBuilder("ticket")
+      .select("ticket.TICKET_CATEGORY", "category")
+      .addSelect("COUNT(*)", "typeCount")
+      .groupBy("ticket.TICKET_CATEGORY")
+      .where("ticket.TICKET_AGENT = :agentCode", {agentCode: AgentId})
+      .getRawMany();
+      
+      return res.status(200).json(CategoriesFound);
+    } 
+
+    catch (error) 
+    {
+      return res.status(500).json({message: error})  
+    }
+  }
 }
 

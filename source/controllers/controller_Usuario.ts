@@ -100,5 +100,65 @@ export class UsuarioController extends GenericController<Usuario> {
         return res.status(401).json(error)
       }
   }
+
+  GetAll = async (req: Request, res  :Response) => 
+  {
+        try 
+        {
+            return res.status(200).json(await this.UserRepository.find({
+            relations: [
+              "usuarCargo",
+              "usuarDepartamento",
+              "usuarTipoUsuario"
+            ]
+          }));
+        } 
+
+        catch (error) 
+        {
+            return error
+        }
+  }
+
+  UpdatePassword = async (req: Request, res  :Response) => 
+  {
+        try 
+        {
+            const BodyEmail = req.body.Email;
+            const BodyPassword = req.body.Password
+            const NewPassword = req.body.NewPassword
+
+            if(typeof BodyEmail !== "string" || BodyEmail.trim() === "")
+              {
+                  return res.status(400).json({ error: ConstUser.USER_EMAIL_OR_PASSWORD_INVALID});   
+              }
+            
+            if(typeof BodyPassword !== "string" || BodyPassword.trim() === "")
+              {
+                  return res.status(400).json({ error: ConstUser.USER_EMAIL_OR_PASSWORD_INVALID});   
+              }
+            
+            if(typeof NewPassword !== "string" || NewPassword.trim() === "")
+              {
+                  return res.status(400).json({ error: ConstUser.USER_NEW_PASSWORD_INVALID});   
+              }
+
+            const FoundUser = await this.UserRepository.findOne({where:{"usuarEmail": BodyEmail, "usuarSenha": BodyPassword}})
+            
+            if(!FoundUser)
+              {
+                 return res.status(400).json({ error: ConstUser.USER_NOT_FOUND});   
+              }
+            
+            FoundUser.usuarSenha = NewPassword;
+            await this.UserRepository.save(FoundUser) 
+            return res.status(200).json({ message: "UserUpdated"})
+        } 
+
+        catch (error) 
+        {
+            return res.status(500).json({ error: "Internal server error" });
+        }
+  }
  
 }
