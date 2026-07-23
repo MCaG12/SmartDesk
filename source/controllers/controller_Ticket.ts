@@ -262,7 +262,14 @@ export class TicketController extends GenericController<Ticket> {
     const AgentId : Number = req.body.AgentId;
     try 
     {
-      const CommentsFound : TicketComment[] = await  this.TicketRepository
+      const CommentsFound : TicketComment[] = await  this.TicketCommentRepository
+      .createQueryBuilder("TicketComment")
+      .innerJoinAndSelect(Ticket,"ticket", "ticket.TICKET_ID = TicketComment.TICKCOM_TICKETID")
+      .where("TicketComment.TICKCOM_USERID = :agentCode", {agentCode: AgentId})
+      .limit(5)
+      .getMany()
+      
+      return res.status(200).json(CommentsFound)
     } 
     catch (error) 
     {
