@@ -12,6 +12,9 @@ const ConstUser: ConstUser<string> = {
   TICKET_DATE_OPEN_INVALID: "",
   TICKET_SOLICITANT_INVALID: "",
   TICKET_AGENT_INVALID: "",
+  USER_NOT_FOUND: "",
+  USER_EMAIL_OR_PASSWORD_INVALID: "",
+  USER_NEW_PASSWORD_INVALID: "",
 };
 
 export default ConstUser;

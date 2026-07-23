@@ -11,5 +11,6 @@ UserRouter.get('/Get/:id', ConstUsuarioController.GetById);
 UserRouter.post('/', ConstUsuarioController.post);
 UserRouter.put('/:id', ConstUsuarioController.update);
 UserRouter.delete('/:id', ConstUsuarioController.delete);
+UserRouter.post('/UpdatePassword', ConstUsuarioController.UpdatePassword)
 
 export default UserRouter;
