@@ -16,6 +16,7 @@ TicketRouter.post('/GetTicketsByEmail', ConstTicketController.GetTicketsByEmail)
 TicketRouter.get('/advanceTicket/:id', ConstTicketController.advanceTicket);
 TicketRouter.post('/fetch-latest-tickets', ConstTicketController.fetchLastestTickets)
 TicketRouter.post('/fetch-latest-ticket-comments', ConstTicketController.fetchLatestTicketComments)
+TicketRouter.post('/fetch-ticket-categories', ConstTicketController.fetchTicketTypesByAgent)
 
 export default TicketRouter;
 

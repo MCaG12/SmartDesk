@@ -267,6 +267,7 @@ export class TicketController extends GenericController<Ticket> {
       .innerJoinAndSelect(Ticket,"ticket", "ticket.TICKET_ID = TicketComment.TICKCOM_TICKETID")
       .where("TicketComment.TICKCOM_USERID = :agentCode", {agentCode: AgentId})
       .limit(5)
+      .orderBy("TicketComment.TICKCOM_TICKETID", "DESC")
       .getMany()
       
       return res.status(200).json(CommentsFound)
@@ -274,6 +275,28 @@ export class TicketController extends GenericController<Ticket> {
     catch (error) 
     {
       return res.status(500).json({message : error});  
+    }
+  }
+
+  fetchTicketTypesByAgent = async (req:Request, res:Response) => 
+  {
+    const AgentId : Number = req.body.AgentId;
+    try 
+    {
+      const CategoriesFound : number [] = await this.TicketRepository
+      .createQueryBuilder("ticket")
+      .select("ticket.TICKET_CATEGORY", "category")
+      .addSelect("COUNT(*)", "typeCount")
+      .groupBy("ticket.TICKET_CATEGORY")
+      .where("ticket.TICKET_AGENT = :agentCode", {agentCode: AgentId})
+      .getRawMany();
+      
+      return res.status(200).json(CategoriesFound);
+    } 
+
+    catch (error) 
+    {
+      return res.status(500).json({message: error})  
     }
   }
 }
