@@ -1,4 +1,5 @@
 
+import { QueryBuilder } from 'typeorm';
 import { generateDTO } from '../auxFunctions/generateObjectDto';
 import ConstTicketComment from '../consts/ticketComment';
 import { AppDataSource } from '../data-source';
@@ -24,6 +25,32 @@ export class TicketCommentController extends GenericController<TicketComment> {
   constructor() {
     super(AppDataSource.getRepository(TicketComment));
   }
+
+  fetchCommentsByTicketId = async (req: Request, res: Response) =>
+  {
+    try 
+    {
+      if(req.body.ticketId == null || typeof req.body.ticketId != "number")
+      {
+        return res.status(400).json({ error: ConstTicketComment.BODY_REQUIRED});
+      }
+
+      const ticketId = req.body.ticketId; 
+
+      const TicketCommentsFound : TicketComment[] =   await this.TicketCommentRepository
+                                                      .createQueryBuilder("ticketComment")
+                                                      .innerJoinAndSelect("ticketComment.tickcomTicket", "ticket")
+                                                      .innerJoinAndSelect("ticketComment.tickcomUser", "user")
+                                                      .where("ticket.TICKET_ID = :ticketCode", { ticketCode: ticketId })
+                                                      .getMany();
+
+      return res.status(200).json(TicketCommentsFound);
+    } 
+    catch (error) 
+    {
+      return res.status(401).json(error)
+    }
+  } 
 
   post = async (req: Request, res: Response) =>
   {
@@ -71,7 +98,7 @@ export class TicketCommentController extends GenericController<TicketComment> {
 
       const TicketData = 
       {
-        tickcomComment: '',
+        tickcomComment: TicketCommentObject.tickcomComment,
         tickcomTicket: {Id: TicketCommentObject.tickcomTicket},
         tickcomUser: {Id: TicketCommentObject.tickcomUser}
       }
