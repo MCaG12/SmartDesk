@@ -183,7 +183,15 @@ export class UsuarioController extends GenericController<Usuario> {
         
       const UserFound = await this.UserRepository.findOne({
         where: { usuarEmail: BodyEmail },
-        select: ['usuarEmail', 'usuarSenha'], 
+        relations: ['usuarCargo', 'usuarDepartamento', 'usuarTipoUsuario'],
+        select: {
+          Id: true,
+          usuarEmail: true,
+          usuarSenha: true,
+          usuarCargo: true,
+          usuarDepartamento: true,
+          usuarTipoUsuario: true,
+        },
       });
 
       if(!UserFound)
@@ -198,12 +206,14 @@ export class UsuarioController extends GenericController<Usuario> {
           return res.status(400).json({ error: ConstUser.USER_EMAIL_OR_PASSWORD_INVALID}); 
         }
 
-      return res.status(200).json({message : "Success"})
+      const { usuarSenha, ...UserWithoutPassword } = UserFound;
+
+      return res.status(200).json({message : UserWithoutPassword})
         
     } 
     catch (error)
     {
-      
+        return res.status(500).json({ error: "Internal server error" });
     }
   }
 
