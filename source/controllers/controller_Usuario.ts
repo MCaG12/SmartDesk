@@ -5,6 +5,7 @@ import { AppDataSource } from '../data-source';
 import { Usuario } from '../entities/entity_Usuario';
 import { GenericController } from './genericController';
 import { Request , Response } from "express";
+import bcrypt from 'bcrypt';
 
 
 interface CreateUserDTO {
@@ -81,6 +82,8 @@ export class UsuarioController extends GenericController<Usuario> {
           return res.status(401).json(UserObject);
         }
 
+        const saltRounds = 10;
+        UserObject.usuarSenha = await bcrypt.hash(UserObject.usuarSenha, saltRounds);
 
         const entityData = {
           ...UserObject,
@@ -143,7 +146,7 @@ export class UsuarioController extends GenericController<Usuario> {
                   return res.status(400).json({ error: ConstUser.USER_NEW_PASSWORD_INVALID});   
               }
 
-            const FoundUser = await this.UserRepository.findOne({where:{"usuarEmail": BodyEmail, "usuarSenha": BodyPassword}})
+            const FoundUser = await this.UserRepository.findOne({where:{"usuarEmail": BodyEmail}})
             
             if(!FoundUser)
               {
@@ -160,5 +163,49 @@ export class UsuarioController extends GenericController<Usuario> {
             return res.status(500).json({ error: "Internal server error" });
         }
   }
+
+  HandleLogin = async (req : Request, res : Response) => 
+  {
+    try 
+    {
+      const BodyEmail = req.body.Email;
+      const BodyPassword = req.body.Password; 
+
+      if(typeof req.body.Email != "string" || BodyEmail.trim() == "")
+        {
+            return res.status(400).json({ error: ConstUser.USER_NO_EMAIL}); 
+        }
+
+      if(typeof req.body.Password  != "string" || BodyPassword.trim() == "")
+        {
+            return res.status(400).json({ error: ConstUser.USER_NO_PASSWORD}); 
+        }
+        
+      const UserFound = await this.UserRepository.findOne({
+        where: { usuarEmail: BodyEmail },
+        select: ['usuarEmail', 'usuarSenha'], 
+      });
+
+      if(!UserFound)
+      {
+          return res.status(400).json({ error: ConstUser.USER_NOT_FOUND});   
+      }
+
+      const PasswordCheck = await bcrypt.compare(BodyPassword, UserFound.usuarSenha)
+
+      if(!PasswordCheck) 
+        {
+          return res.status(400).json({ error: ConstUser.USER_EMAIL_OR_PASSWORD_INVALID}); 
+        }
+
+      return res.status(200).json({message : "Success"})
+        
+    } 
+    catch (error)
+    {
+      
+    }
+  }
+
  
 }

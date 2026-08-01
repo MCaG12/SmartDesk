@@ -14,7 +14,7 @@ export class Usuario {
   @Column({ name: 'USUAR_EMAIL', type: 'varchar', length: 50, nullable: true })
   usuarEmail!: string;
  
-  @Column({ name: 'USUAR_SENHA', type: 'varchar', length: 50, nullable: true })
+  @Column({ name: 'USUAR_SENHA', type: 'varchar', length: 255, nullable: true, select: false  })
   usuarSenha!: string;
  
   @ManyToOne(() => Cargo)
