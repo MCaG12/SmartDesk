@@ -54,7 +54,7 @@ Cada módulo segue, em sua maioria, o padrão **CRUD** (Create, Read, Update, De
 
 <br>
 
-### 🏢 Departamento
+### >> Departamento
 `/departamento`
 
 | Método | Rota | Descrição |
