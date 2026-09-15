@@ -14,6 +14,8 @@ const ConstTicket: ConstTicket<string> = {
   TICKET_AGENT_INVALID: "",
   TICKET_AGENT_EMAIL_INVALID: "",
   TICKET_NOT_FOUND: "",
+  TICKET_CLOSE_DATE_INVALID: "",
+  
 };
 
 export default ConstTicket;

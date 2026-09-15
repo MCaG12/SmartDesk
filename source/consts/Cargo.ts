@@ -7,6 +7,7 @@ const ConstCargo: ConstCargo<string> = {
   CARGO_NAME: "",
   DEPARTAMENT_CODE: "",
   DEPARTAMENT_DOESNT_EXIST: ""
+  
 };
 
 export default ConstCargo;

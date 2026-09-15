@@ -217,5 +217,25 @@ export class UsuarioController extends GenericController<Usuario> {
     }
   }
 
+  HandleFetchUsersByRole = async (req: Request, res: Response) => {
+    try 
+    {
+      const id = Number(req.params.roleCode);
+
+      if(id == null)
+        {
+          return res.status(400).json({ error: ConstUser.USER_NO_ROLECODE}); 
+        }
+      
+      const usersFound = await this.UserRepository.createQueryBuilder("USUARIO").where("USUARIO.USUAR_CARGO = :roleCode", {roleCode: id}).getMany();
+
+      return res.status(200).json({ message: usersFound});
+    }
+    catch (error) 
+    {
+      return res.status(500).json({error: error})  
+    }
+  }
+
  
 }

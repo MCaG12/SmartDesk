@@ -16,7 +16,8 @@ const ConstUser: ConstUser<string> = {
   USER_EMAIL_OR_PASSWORD_INVALID: "Email ou Senha incorretos!",
   USER_NEW_PASSWORD_INVALID: "",
   USER_NO_PASSWORD: "Insira a senha!",
-  USER_NO_EMAIL:"Insira o email!"
+  USER_NO_EMAIL:"Insira o email!",
+  USER_NO_ROLECODE: "",
 };
 
 export default ConstUser;

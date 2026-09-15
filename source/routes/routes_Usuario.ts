@@ -13,5 +13,6 @@ UserRouter.put('/:id', ConstUsuarioController.update);
 UserRouter.delete('/:id', ConstUsuarioController.delete);
 UserRouter.post('/UpdatePassword', ConstUsuarioController.UpdatePassword)
 UserRouter.post('/Login', ConstUsuarioController.HandleLogin)
+UserRouter.get('/users-by-role/:roleCode', ConstUsuarioController.HandleFetchUsersByRole)
 
 export default UserRouter;

@@ -75,6 +75,29 @@ export class CargoController extends GenericController<Cargo> {
       }
     }
   
+  fetchRolesByDepartment = async (req:Request, res:Response) => 
+  {  
+      try 
+      {
+          console.log("test endric")
+          const departmentCode = Number(req.params.id);
+
+          if(isNaN(departmentCode))
+          {
+            return res.status(400).json({ error : ConstCargo.DEPARTAMENT_DOESNT_EXIST})
+          }
+
+          const RolesFound = await this.CargoRepository.createQueryBuilder("CARGO").where("CARGO.carDepartamento = :departmentCode", {departmentCode : departmentCode}).getMany();
+
+          return res.status(200).json(RolesFound);
+
+      } 
+
+      catch (error) 
+      {
+          return res.status(500).json({message :error});
+      }
+  }
 
  
 }
