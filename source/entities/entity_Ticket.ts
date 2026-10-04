@@ -40,4 +40,7 @@ export class Ticket {
   @ManyToOne(() => Usuario, { nullable: true })
   @JoinColumn({ name: 'TICKET_AGENT' })
   ticketAgent!: Usuario;
+
+  @Column({ name: "TICKET_DAYSLEFT", type: "integer", default: 0 })
+  ticketDaysLeft!: number;
 }

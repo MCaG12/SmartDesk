@@ -456,5 +456,69 @@ export class TicketController extends GenericController<Ticket> {
         return res.status(500).json({message: error}) 
       }
     }
+
+  fetchTicketsBySolicitant = async (req: Request, res: Response) => 
+  {
+    try 
+    {
+      const solicitantId = req.body.solicitantId;
+
+      if(typeof(solicitantId) != "number" || solicitantId == null)
+      {
+        return res.status(400).json({message: ConstTicket.TICKET_DATE_OPEN_INVALID });
+      }
+
+      const SolicitantFound =  await this.UserRepository.findOneBy({Id: solicitantId})
+
+      if(!SolicitantFound)
+        {
+          return res.status(401).json({message: ConstTicket.TICKET_SOLICITANT_NOT_FOUND });
+        }
+
+      const TicketsFound : Ticket[] = await this.TicketRepository
+                                      .createQueryBuilder("Ticket")
+                                      .leftJoinAndSelect("Ticket.ticketStatus", "ticketStatus")
+                                      .leftJoinAndSelect("Ticket.ticketPriority", "ticketPriority")
+                                      .leftJoinAndSelect("Ticket.ticketCategory", "ticketCategory")
+                                      .leftJoinAndSelect("Ticket.ticketSolicitant", "ticketSolicitant")
+                                      .leftJoinAndSelect("Ticket.ticketAgent", "ticketAgent")
+                                      .where("Ticket.TICKET_SOLICITANT  = :solicitantCode", {solicitantCode: solicitantId})
+                                      .getMany()
+
+      return res.status(200).json(TicketsFound)
+                                    
+    } 
+    catch (error) 
+    {
+      console.error(error); 
+      return res.status(500).json({message: error}) 
+    }
+  }
+
+  fetchUserTicketsCompletedAndNotInExpectedTime = async (req:Request, res:Response) => 
+    {
+      try 
+      {
+        const agentId = req.body.agentId;
+
+        if(typeof(agentId) != "number" || agentId == null)
+        {
+          return res.status(400).json({message: ConstTicket.TICKET_AGENT_INVALID });
+        }
+
+        const [counts] = await this.TicketRepository.query('SELECT * FROM ticket_counts($1)', [agentId]);
+
+        return res.status(200).json({completedInTime: counts.completed_in_time,
+                                     notCompletedInTime: counts.not_completed_in_time}); 
+      } 
+      catch (error) 
+      {
+        console.error(error); 
+        return res.status(500).json({message: error}) 
+      }
+    }
+
 }
+
+
 

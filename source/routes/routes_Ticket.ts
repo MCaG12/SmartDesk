@@ -21,6 +21,8 @@ TicketRouter.post('/fetch-tickets-by-category', ConstTicketController.fetchTicke
 TicketRouter.get('/fetch-open-ticket-counts', ConstTicketController.fetchOpenTicketCountPerCategory)
 TicketRouter.post('/fetch-highest-ticket-count-operators', ConstTicketController.fetchHighestTicketCountOperators)
 TicketRouter.post('/fetch-tickets-in-period', ConstTicketController.fetchTicketsInPeriod)
+TicketRouter.post('/fetch-tickets-by-solicitant', ConstTicketController.fetchTicketsBySolicitant)
+TicketRouter.post('/fetch-agent-ticket-count', ConstTicketController.fetchUserTicketsCompletedAndNotInExpectedTime);
 
 export default TicketRouter;
 
