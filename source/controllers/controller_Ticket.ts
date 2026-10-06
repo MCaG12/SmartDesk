@@ -1,13 +1,17 @@
 
+import { QueryBuilder } from 'typeorm';
 import { generateDTO } from '../auxFunctions/generateObjectDto';
 import ConstTicket from '../consts/TicketConst';
 import { AppDataSource } from '../data-source';
+import { Departamento } from '../entities/entity_Departamento';
 import { Ticket } from '../entities/entity_Ticket';
+import { TicketCategory } from '../entities/entity_TicketCategory';
 import { TicketComment } from '../entities/entity_TicketComment';
 import { Usuario } from '../entities/entity_Usuario';
 import { ITicket } from '../interfaces/ticketInterface';
 import { GenericController } from './genericController';
 import { Request , Response } from "express";
+import isValidDate from '../auxFunctions/isValidDate';
 
 interface CreateTicketDTO {
   ticketTitle: string;
@@ -26,6 +30,7 @@ export class TicketController extends GenericController<Ticket> {
   private TicketRepository = AppDataSource.getRepository(Ticket)  
   private UserRepository   = AppDataSource.getRepository(Usuario) 
   private TicketCommentRepository = AppDataSource.getRepository(TicketComment)
+  private CategoryRepository = AppDataSource.getRepository(TicketCategory)
 
   constructor() {
     super(AppDataSource.getRepository(Ticket));
@@ -299,5 +304,221 @@ export class TicketController extends GenericController<Ticket> {
       return res.status(500).json({message: error})  
     }
   }
+
+  fetchTicketsByCategory = async (req: Request, res:Response) => 
+  {
+    const CategoryId = req.body.CategoryId;
+    if(CategoryId == null)
+      {
+        return res.status(400).json({ error: ConstTicket.TICKET_CATEGORY_NOT_INFORMED});
+      }
+
+    const category = await this.CategoryRepository.findOneBy({
+        Id: CategoryId
+    });
+
+    if (!category) {
+       return res.status(400).json({ error: ConstTicket.TICKET_CATEGORY_NOT_FOUND});
+    }
+
+    try 
+    {
+      const CategoriesFound = await this.TicketRepository
+      .createQueryBuilder("ticket")
+      .leftJoinAndSelect("ticket.ticketStatus", "ticketStatus")
+      .leftJoinAndSelect("ticket.ticketPriority", "ticketPriority")
+      .leftJoinAndSelect("ticket.ticketCategory", "ticketCategory")
+      .leftJoinAndSelect("ticket.ticketSolicitant", "ticketSolicitant")
+      .leftJoinAndSelect("ticket.ticketAgent", "ticketAgent")
+      .where("ticket.TICKET_CATEGORY = :categoryCode", {categoryCode: CategoryId})
+      .getMany()
+
+      return res.status(200).json(CategoriesFound);
+    } 
+    catch (error) 
+    {
+      return res.status(500).json({message: error})  
+    }
+
+  }
+
+  fetchOpenTicketCountPerCategory = async (req: Request, res:Response) => 
+    {
+      try 
+      {
+          const CountsFound = await this.TicketRepository
+          .createQueryBuilder("ticket")
+          .select("ticket.TICKET_CATEGORY", "category")
+          .addSelect("COUNT(ticket.TICKET_ID)", "count")
+          .groupBy("ticket.TICKET_CATEGORY")
+          .getRawMany();
+
+          return res.status(200).json(CountsFound);
+      } 
+      catch (error) 
+      {
+          return res.status(500).json({message: error})  
+      }
+    }
+
+  fetchHighestTicketCountOperators = async (req: Request, res: Response) => {
+    try 
+    {
+        const CategoryId = req.body.CategoryId;
+        if(CategoryId == null)
+          {
+            return res.status(400).json({ error: ConstTicket.TICKET_CATEGORY_NOT_INFORMED});
+          }
+
+        const category = await this.CategoryRepository.findOneBy({
+            Id: CategoryId
+        });
+
+        if (!category) {
+          return res.status(400).json({ error: ConstTicket.TICKET_CATEGORY_NOT_FOUND});
+        }
+
+        const OperatorsFound = await this.TicketRepository
+        .createQueryBuilder("ticket")
+        .leftJoin("ticket.ticketAgent", "ticketAgent")
+        .select("ticketAgent.usuarNome", "OperatorName")
+        .addSelect("COUNT(ticket.ticketAgent.Id)", "count")
+        .where("ticket.TICKET_CATEGORY = :categoryCode", { categoryCode: CategoryId })
+        .groupBy("ticketAgent.usuarNome")
+        .limit(3)
+        .getRawMany();
+
+        return res.status(200).json(OperatorsFound);
+    } 
+    catch (error) 
+    {
+        return res.status(500).json({message: error}) 
+    }
+  }
+
+  fetchTicketsInPeriod = async (req: Request, res: Response) => 
+    {
+      try 
+      {
+        const InitialDate = req.body.InitialDate;
+        const FinalDate = req.body.FinalDate;
+        const CategorySelected = req.body.TicketCategory;
+
+        if( typeof(InitialDate) != "string" || InitialDate.trim() == "" || isValidDate(new Date(InitialDate)) == false)
+          {
+            return res.status(400).json({message: ConstTicket.TICKET_DATE_OPEN_INVALID });
+          }
+        
+        if( typeof(FinalDate) != "string" )
+          {
+            return res.status(400).json({message: ConstTicket.TICKET_CLOSE_DATE_INVALID });
+          }
+
+        if( typeof(CategorySelected) != "number" || CategorySelected == null )
+          {
+            return res.status(400).json({message: ConstTicket.TICKET_CATEGORY_NOT_FOUND});
+          }
+
+        const TicketCategoryFound = await this.CategoryRepository.findOneBy({
+            Id: CategorySelected
+        })
+
+        if(!TicketCategoryFound)
+          {
+            return res.status(400).json({message: ConstTicket.TICKET_CATEGORY_INVALID})
+          }
+
+        const TicketsFoundQuery = this.TicketRepository.createQueryBuilder("ticket")
+          .andWhere("ticket.ticketCategory = :ticketcategory", { ticketcategory: CategorySelected });
+
+        if (FinalDate.trim() != "" && isValidDate(new Date(FinalDate))) {
+
+          TicketsFoundQuery.andWhere(
+            "ticket.ticketDateOpen BETWEEN :initialdate AND :finaldate",
+            { initialdate: InitialDate, finaldate: FinalDate }
+          );
+        } else {
+
+          TicketsFoundQuery.andWhere(
+            "ticket.ticketDateOpen >= :initialdate",
+            { initialdate: InitialDate }
+          );
+        }
+
+        const TicketsFound = await TicketsFoundQuery.getMany();
+         
+        return res.status(200).json(TicketsFound)
+        
+      } 
+      catch (error) 
+      {
+        console.error(error); 
+        return res.status(500).json({message: error}) 
+      }
+    }
+
+  fetchTicketsBySolicitant = async (req: Request, res: Response) => 
+  {
+    try 
+    {
+      const solicitantId = req.body.solicitantId;
+
+      if(typeof(solicitantId) != "number" || solicitantId == null)
+      {
+        return res.status(400).json({message: ConstTicket.TICKET_DATE_OPEN_INVALID });
+      }
+
+      const SolicitantFound =  await this.UserRepository.findOneBy({Id: solicitantId})
+
+      if(!SolicitantFound)
+        {
+          return res.status(401).json({message: ConstTicket.TICKET_SOLICITANT_NOT_FOUND });
+        }
+
+      const TicketsFound : Ticket[] = await this.TicketRepository
+                                      .createQueryBuilder("Ticket")
+                                      .leftJoinAndSelect("Ticket.ticketStatus", "ticketStatus")
+                                      .leftJoinAndSelect("Ticket.ticketPriority", "ticketPriority")
+                                      .leftJoinAndSelect("Ticket.ticketCategory", "ticketCategory")
+                                      .leftJoinAndSelect("Ticket.ticketSolicitant", "ticketSolicitant")
+                                      .leftJoinAndSelect("Ticket.ticketAgent", "ticketAgent")
+                                      .where("Ticket.TICKET_SOLICITANT  = :solicitantCode", {solicitantCode: solicitantId})
+                                      .getMany()
+
+      return res.status(200).json(TicketsFound)
+                                    
+    } 
+    catch (error) 
+    {
+      console.error(error); 
+      return res.status(500).json({message: error}) 
+    }
+  }
+
+  fetchUserTicketsCompletedAndNotInExpectedTime = async (req:Request, res:Response) => 
+    {
+      try 
+      {
+        const agentId = req.body.agentId;
+
+        if(typeof(agentId) != "number" || agentId == null)
+        {
+          return res.status(400).json({message: ConstTicket.TICKET_AGENT_INVALID });
+        }
+
+        const [counts] = await this.TicketRepository.query('SELECT * FROM ticket_counts($1)', [agentId]);
+
+        return res.status(200).json({completedInTime: counts.completed_in_time,
+                                     notCompletedInTime: counts.not_completed_in_time}); 
+      } 
+      catch (error) 
+      {
+        console.error(error); 
+        return res.status(500).json({message: error}) 
+      }
+    }
+
 }
+
+
 

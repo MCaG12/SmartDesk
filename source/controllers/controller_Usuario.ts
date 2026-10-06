@@ -81,6 +81,8 @@ export class UsuarioController extends GenericController<Usuario> {
           return res.status(401).json(UserObject);
         }
 
+        const saltRounds = 10;
+        UserObject.usuarSenha = await bcrypt.hash(UserObject.usuarSenha, saltRounds);
 
         const entityData = {
           ...UserObject,
@@ -143,7 +145,7 @@ export class UsuarioController extends GenericController<Usuario> {
                   return res.status(400).json({ error: ConstUser.USER_NEW_PASSWORD_INVALID});   
               }
 
-            const FoundUser = await this.UserRepository.findOne({where:{"usuarEmail": BodyEmail, "usuarSenha": BodyPassword}})
+            const FoundUser = await this.UserRepository.findOne({where:{"usuarEmail": BodyEmail}})
             
             if(!FoundUser)
               {
@@ -160,5 +162,80 @@ export class UsuarioController extends GenericController<Usuario> {
             return res.status(500).json({ error: "Internal server error" });
         }
   }
+
+  HandleLogin = async (req : Request, res : Response) => 
+  {
+    try 
+    {
+      const BodyEmail = req.body.Email;
+      const BodyPassword = req.body.Password; 
+
+      if(typeof req.body.Email != "string" || BodyEmail.trim() == "")
+        {
+            return res.status(400).json({ error: ConstUser.USER_NO_EMAIL}); 
+        }
+
+      if(typeof req.body.Password  != "string" || BodyPassword.trim() == "")
+        {
+            return res.status(400).json({ error: ConstUser.USER_NO_PASSWORD}); 
+        }
+        
+      const UserFound = await this.UserRepository.findOne({
+        where: { usuarEmail: BodyEmail },
+        relations: ['usuarCargo', 'usuarDepartamento', 'usuarTipoUsuario'],
+        select: {
+          Id: true,
+          usuarEmail: true,
+          usuarNome: true,
+          usuarSenha: true,
+          usuarCargo: true,
+          usuarDepartamento: true,
+          usuarTipoUsuario: true,
+        },
+      });
+
+      if(!UserFound)
+      {
+          return res.status(400).json({ error: ConstUser.USER_NOT_FOUND});   
+      }
+
+      const PasswordCheck = await bcrypt.compare(BodyPassword, UserFound.usuarSenha)
+
+      if(!PasswordCheck) 
+        {
+          return res.status(400).json({ error: ConstUser.USER_EMAIL_OR_PASSWORD_INVALID}); 
+        }
+
+      const { usuarSenha, ...UserWithoutPassword } = UserFound;
+
+      return res.status(200).json({message : UserWithoutPassword})
+        
+    } 
+    catch (error)
+    {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  HandleFetchUsersByRole = async (req: Request, res: Response) => {
+    try 
+    {
+      const id = Number(req.params.roleCode);
+
+      if(id == null)
+        {
+          return res.status(400).json({ error: ConstUser.USER_NO_ROLECODE}); 
+        }
+      
+      const usersFound = await this.UserRepository.createQueryBuilder("USUARIO").where("USUARIO.USUAR_CARGO = :roleCode", {roleCode: id}).getMany();
+
+      return res.status(200).json({ message: usersFound});
+    }
+    catch (error) 
+    {
+      return res.status(500).json({error: error})  
+    }
+  }
+
  
 }

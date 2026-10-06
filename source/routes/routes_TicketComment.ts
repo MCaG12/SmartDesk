@@ -11,6 +11,7 @@ TicketCommentRouter.get('/Get/:id', ConstTicketCommentController.GetById);
 TicketCommentRouter.post('/', ConstTicketCommentController.post);
 TicketCommentRouter.put('/:id', ConstTicketCommentController.update);
 TicketCommentRouter.delete('/:id', ConstTicketCommentController.delete);
+TicketCommentRouter.post('/fetch-ticket-comments/', ConstTicketCommentController.fetchCommentsByTicketId);
 
 
 export default TicketCommentRouter;

@@ -13,4 +13,5 @@ DepartamentoRouter.put('/:id', ConstDepartamentoController.update);
 DepartamentoRouter.delete('/:id', ConstDepartamentoController.delete);
 
 
+
 export default DepartamentoRouter;

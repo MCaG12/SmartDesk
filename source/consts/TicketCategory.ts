@@ -3,8 +3,8 @@ interface ConstTicketCategory<T> {
 }
 
 const ConstTicketCategory: ConstTicketCategory<string> = {
-  BODY_REQUIRED: "",
-  TICKET_CATEGORY_DESCRIPTION: ""
+  BODY_REQUIRED: "Request body cannot be empty.",
+  TICKET_CATEGORY_DESCRIPTION: "Ticket category description is required and must be a valid string."
 };
 
 export default ConstTicketCategory;
