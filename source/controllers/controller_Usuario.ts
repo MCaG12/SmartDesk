@@ -5,7 +5,6 @@ import { AppDataSource } from '../data-source';
 import { Usuario } from '../entities/entity_Usuario';
 import { GenericController } from './genericController';
 import { Request , Response } from "express";
-import bcrypt from 'bcrypt';
 
 
 interface CreateUserDTO {
@@ -187,6 +186,7 @@ export class UsuarioController extends GenericController<Usuario> {
         select: {
           Id: true,
           usuarEmail: true,
+          usuarNome: true,
           usuarSenha: true,
           usuarCargo: true,
           usuarDepartamento: true,

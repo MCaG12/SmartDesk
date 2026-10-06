@@ -3,10 +3,8 @@ interface ConstTypePriority<T> {
 }
 
 const ConstTypePriority: ConstTypePriority<string> = {
-  TYPE_PRIORITY_DESCRIPTION: "",
-  TYPE_PRIORITY_BADBODY : ""
-
-
+  TYPE_PRIORITY_DESCRIPTION: "Priority type description is required and must be a valid string.",
+  TYPE_PRIORITY_BADBODY: "Request body is invalid or missing required fields."
 };
 
 export default ConstTypePriority;
